@@ -1,0 +1,633 @@
+
+<!DOCTYPE html>
+<!-- Doctype tells the browser that this is an HTML5 document. -->
+<html lang="en">
+<!-- The lang attribute specifies that the page is in English. -->
+
+<head>
+    <!-- Metadata describing character encoding and mobile display. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Connect</title>
+
+    <style>
+        /* Universal selector: applies styles to every element. */
+        * {
+            margin: 0;
+            /* Removes the default margin from elements. */
+            padding: 0;
+            /* Removes the default padding from elements. */
+            box-sizing: border-box;
+            /* Includes padding and borders in the element's total width. */
+        }
+
+        /* Styles the entire page body. */
+        body {
+            font-family: Arial, sans-serif;
+            /* Sets the website font. */
+            background: #201f20;
+            /* Sets the page background color. */
+            color: #29243a;
+            /* Sets the default text color. */
+        }
+
+        /* Styles the top header area. */
+        header {
+            background: #673cf0;
+            /* Sets the header background color. */
+            color: white;
+            /* Sets the header text color. */
+            padding: 20px;
+            /* Adds space inside the header. */
+            text-align: center;
+            /* Centers text inside the header. */
+        }
+
+        /* Forces paragraph text inside these areas to remain white. */
+        header p,
+        .purple p,
+        footer p {
+            color: white;
+        }
+
+        /* Styles the navigation bar and keeps it visible at the top. */
+        nav {
+            position: sticky;
+            /* Keeps the navigation visible while scrolling. */
+            top: 0;
+            /* Sticks the navigation at the top of the screen. */
+            z-index: 10;
+            /* Places the navigation above other elements. */
+            padding: 15px;
+            /* Adds space inside the navigation. */
+            background: white;
+            /* Sets the navigation background. */
+            text-align: center;
+            /* Centers navigation links horizontally. */
+        }
+
+        /* Styles each navigation link. */
+        nav a {
+            display: inline-block;
+            /* Places links beside each other. */
+            padding: 10px;
+            /* Adds clickable space around each link. */
+            color: #673cf0;
+            /* Sets the link text color. */
+            font-weight: bold;
+            /* Makes link text bold. */
+            text-decoration: none;
+            /* Removes the underline. */
+        }
+
+        /* Changes navigation link color when hovered. */
+        nav a:hover {
+            color: #ff704f;
+        }
+
+        /* Styles the main content container. */
+        .container {
+            max-width: 500px;
+            /* Limits the container width. */
+            margin: 25px auto;
+            /* Centers the container horizontally and adds vertical spacing. */
+            padding: 22px;
+            /* Adds space inside the container. */
+            border-radius: 20px;
+            /* Rounds the container corners. */
+            background: #fff8ed;
+            /* Sets the container background color. */
+        }
+
+        /* Hidden by default: only the selected page should be visible. */
+        .page {
+            display: none;
+        }
+
+        /* :target matches the section whose ID matches the URL fragment. */
+        .page:target {
+            display: block;
+        }
+
+        /* Shows Home by default when no URL fragment is selected. */
+        #home {
+            display: block;
+        }
+
+        /* Question: CSS should hide Home only when another page is targeted. */
+        body:has(.page:target:not(#home)) #home {
+            display: none;
+        }
+
+        /* Styles the main heading. */
+        h1 {
+            margin-bottom: 15px;
+            /* Adds space below the heading. */
+            font-size: 25px;
+            /* Sets heading size. */
+        }
+
+        /* Styles the smaller heading. */
+        h2 {
+            margin-bottom: 10px;
+            font-size: 19px;
+        }
+
+        /* Styles paragraph text. */
+        p {
+            margin-bottom: 12px;
+            /* Adds space after paragraphs. */
+            color: #777;
+            /* Sets a muted text color. */
+            line-height: 1.6;
+            /* Improves readability by increasing line spacing. */
+        }
+
+        /* Creates a reusable card layout. */
+        .card {
+            margin: 15px 0;
+            /* Adds vertical space around cards. */
+            padding: 18px;
+            /* Adds space inside cards. */
+            border: 2px solid #29243a;
+            /* Creates a dark card border. */
+            border-radius: 15px;
+            /* Rounds card corners. */
+            box-shadow: 0 3px 0 #29243a;
+            /* Creates a solid offset shadow. */
+        }
+
+        /* Sets the purple card theme. */
+        .purple {
+            background: #673cf0;
+            color: white;
+        }
+         
+        .lime {
+            background: #c6f0a5;
+            color: #333;
+        }
+        /* Sets the peach card theme. */
+        .peach {
+            background: #ffd7c8;
+        }
+
+        /* Styles buttons and links used as buttons. */
+        .btn {
+            display: inline-block;
+            /* Allows padding and margins on inline elements. */
+            margin-top: 10px;
+            /* Adds space above the button. */
+            padding: 12px 20px;
+            /* Defines button size. */
+            border: none;
+            /* Removes default button borders. */
+            border-radius: 25px;
+            /* Creates pill-shaped buttons. */
+            background: #673cf0;
+            /* Sets the button background. */
+            color: white;
+            /* Sets the button text color. */
+            text-decoration: none;
+            /* Removes link underlines. */
+            cursor: pointer;
+            /* Displays the hand cursor on hover. */
+        }
+
+        /* Changes button appearance when hovered. */
+        .btn:hover {
+            background: #4c28c5;
+        }
+
+        /* Styles text fields, dropdowns and text areas. */
+        input,
+        select,
+        textarea {
+            width: 100%;
+            /* Makes form controls fill their container. */
+            margin: 10px 0;
+            /* Adds vertical spacing. */
+            padding: 13px;
+            /* Adds inner spacing. */
+            border: 1px solid #ccc;
+            /* Adds a light gray border. */
+            border-radius: 10px;
+            /* Rounds form control corners. */
+        }
+
+        /* Styles the page footer. */
+        footer {
+            padding: 20px;
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Page header: appears on every section. -->
+    <header>
+        <h1>Campus Connect</h1>
+        <p>Your campus. Your people.</p>
+    </header>
+
+    <!-- Navigation: each href uses an element ID as a fragment. -->
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#discover">Clubs</a>
+        <a href="#events">Events</a>
+        <a href="#my-events">My Events</a>
+        <a href="#workspace">Manage</a>
+    </nav>
+
+    <!-- Container for all switchable pages. -->
+    <div class="container">
+
+        <!-- Home page: visible by default when no fragment is selected. -->
+        <section class="page" id="home">
+
+            <h1>Your campus. Your people.</h1>
+            <p>Discover events, clubs and new opportunities.</p>
+
+            <!-- Search input for future JavaScript filtering. -->
+            <input type="search" placeholder="Search events, clubs & more">
+
+            <div class="card purple">
+                <h1>BUILD WHAT'S NEXT.</h1>
+                <h2>Campus Hack '26</h2>
+                <p>24 OCT - 9 AM - Innovation Hub</p>
+
+                <!-- Links to the event-details section. -->
+                <a href="#event-details" class="btn">Explore event</a>
+            </div>
+
+            <h2>Explore your interests</h2>
+
+            <div class="card lime">
+                <h2>Tech Society</h2>
+                <p>Technology and innovation</p>
+                <a href="#club-profile" class="btn">Explore club</a>
+            </div>
+
+            <h2>Coming up</h2>
+
+            <div class="card peach">
+                <h2>The Sunday Sessions</h2>
+                <p>25 October - Student Courtyard</p>
+                <a href="#event-details" class="btn">View event</a>
+            </div>
+
+        </section>
+
+        <!-- Club discovery page. -->
+        <section class="page" id="discover">
+
+            <h1>Discover clubs</h1>
+            <p>Find where you belong.</p>
+
+            <div class="card peach">
+                <h2>Find your kind of people.</h2>
+                <p>24 clubs. Endless possibilities.</p>
+            </div>
+
+            <div class="card lavender">
+                <h2>Tech Society</h2>
+                <p>Build, break and make an impact.</p>
+                <a href="#club-profile" class="btn">Explore club</a>
+            </div>
+
+            <div class="card peach">
+                <h2>The Creative Collective</h2>
+                <p>Arts, design and creativity.</p>
+            </div>
+
+            <div class="card lime">
+                <h2>Rhythm Club</h2>
+                <p>Music and performance.</p>
+            </div>
+
+        </section>
+
+        <!-- Detailed event information page. -->
+        <section class="page" id="event-details">
+
+            <h1>Event details</h1>
+
+            <div class="card purple">
+                <h1>CAMPUS HACK '26</h1>
+                <p>24 Hours of Limitless Ideas</p>
+            </div>
+
+            <h2>Campus Hack '26</h2>
+            <p>Build something that matters.</p>
+
+            <div class="card lavender">
+                <h2>Event information</h2>
+                <p>Date: Saturday, 24 October</p>
+                <p>Time: 9:00 AM</p>
+                <p>Location: Innovation Hub</p>
+            </div>
+
+            <h2>About the event</h2>
+            <p>Join students, creators and innovators for an exciting campus hackathon.</p>
+
+            <!-- Moves to the registration form. -->
+            <a href="#register" class="btn">Register for event</a>
+
+        </section>
+
+        <!-- Event management workspace for organisers. -->
+        <section class="page" id="workspace">
+
+            <h1>My workspace</h1>
+            <p>Manage your campus activities.</p>
+
+            <div class="card lime">
+                <h2>03 Upcoming events</h2>
+            </div>
+
+            <div class="card peach">
+                <h2>412 Registrations</h2>
+            </div>
+
+            <div class="card lavender">
+                <h2>86 Checked in</h2>
+            </div>
+
+            <h2>Your events</h2>
+
+            <div class="card">
+                <h2>Campus Hack '26</h2>
+                <p>352 / 500 registrations</p>
+                <a href="#edit-event" class="btn">Edit event</a>
+                <a href="#attendees" class="btn">View attendees</a>
+            </div>
+
+        </section>
+
+        <!-- Individual club profile page. -->
+        <section class="page" id="club-profile">
+
+            <h1>Tech Society</h1>
+
+            <div class="card purple">
+                <h1>Think it. Build it. Share it.</h1>
+            </div>
+
+            <h2>248 Members</h2>
+            <p>Technology community</p>
+
+            <div class="card lavender">
+                <h2>A community for curious minds.</h2>
+                <p>Learn, collaborate and create with other students.</p>
+                <p>✓ Hands-on workshops</p>
+                <p>✓ Peer-led projects</p>
+                <p>✓ Hackathons and meetups</p>
+            </div>
+
+            <a href="#joined-clubs" class="btn">Join Tech Society</a>
+
+        </section>
+
+        <!-- Student's personal events page. -->
+        <section class="page" id="my-events">
+
+            <h1>My events</h1>
+            <p>Your next great campus memory.</p>
+
+            <div class="card lavender">
+                <h2>You're on the list!</h2>
+                <p>Discover and explore your upcoming events.</p>
+                <a href="#events" class="btn">Explore campus events</a>
+            </div>
+
+            <div class="card peach">
+                <h2>Everything is better together.</h2>
+                <p>Explore new events and meet new people.</p>
+            </div>
+
+        </section>
+
+        <!-- Event registration form page. -->
+        <section class="page" id="register">
+
+            <h1>Register for event</h1>
+            <p>Campus Hack '26</p>
+
+            <!-- GET submission sends form data in the URL. -->
+            <!-- Currently, #success is used as the form action. -->
+            <form action="#success" method="get">
+
+                <!-- Required fields prevent submission when empty. -->
+                <label for="full-name">Full Name</label>
+                <input id="full-name" type="text"
+                    placeholder="Enter your name" required>
+
+                <label for="email">Email Address</label>
+                <input id="email" type="email"
+                    placeholder="Enter your email" required>
+
+                <label for="department">Department</label>
+                <input id="department" type="text"
+                    placeholder="Enter department">
+
+                <label for="year">Year</label>
+                <select id="year">
+                    <option>Select year</option>
+                    <option>First Year</option>
+                    <option>Second Year</option>
+                    <option>Third Year</option>
+                    <option>Final Year</option>
+                </select>
+
+                <button class="btn" type="submit">
+                    Complete registration
+                </button>
+
+            </form>
+
+        </section>
+
+        <!-- Confirmation page shown after form submission. -->
+        <section class="page" id="success">
+
+            <div class="card lime">
+                <h1>You're in!</h1>
+                <p>Your registration is confirmed.</p>
+            </div>
+
+            <h2>See you at Campus Hack '26</h2>
+            <p>Saturday, 24 October - 9:00 AM</p>
+            <p>Innovation Hub</p>
+
+            <a href="#my-events" class="btn">View my ticket</a>
+
+        </section>
+
+        <!-- Page displaying event attendees. -->
+        <section class="page" id="attendees">
+
+            <h1>Attendees</h1>
+            <p>Campus Hack '26</p>
+
+            <div class="card lavender">
+                <h2>Aarav Sharma</h2>
+                <p>Confirmed</p>
+            </div>
+
+            <div class="card lime">
+                <h2>Meera Patel</h2>
+                <p>Checked in</p>
+            </div>
+
+            <div class="card peach">
+                <h2>Kabir Rao</h2>
+                <p>Confirmed</p>
+            </div>
+
+            <div class="card lavender">
+                <h2>Ananya Singh</h2>
+                <p>Registered</p>
+            </div>
+
+        </section>
+
+        <!-- Event editing form. -->
+        <section class="page" id="edit-event">
+
+            <h1>Edit event</h1>
+
+            <!-- Submitting returns the user to the workspace section. -->
+            <form action="#workspace">
+
+                <label for="event-name">Event name</label>
+                <input id="event-name" type="text"
+                    value="Campus Hack '26">
+
+                <label for="event-date">Date and time</label>
+                <input id="event-date" type="datetime-local">
+
+                <label for="location">Location</label>
+                <input id="location" type="text"
+                    value="Innovation Hub">
+
+                <label for="category">Category</label>
+                <select id="category">
+                    <option>Technology</option>
+                    <option>Arts & Culture</option>
+                    <option>Sports</option>
+                </select>
+
+                <label for="description">Event description</label>
+                <textarea id="description" rows="4"
+                    placeholder="Describe your event"></textarea>
+
+                <button type="submit" class="btn">
+                    Save changes
+                </button>
+
+            </form>
+
+        </section>
+
+        <!-- Search page. -->
+        <section class="page" id="search">
+
+            <h1>Search campus</h1>
+
+            <input type="search"
+                placeholder="Search events, clubs & more">
+
+            <h2>Popular searches</h2>
+
+            <div class="card lime">Technology</div>
+            <div class="card peach">Tech Society</div>
+            <div class="card lavender">Campus Hack '26</div>
+
+            <a href="#events" class="btn">Browse campus events</a>
+
+        </section>
+
+        <!-- Notification summary page. -->
+        <section class="page" id="notifications">
+
+            <h1>Notifications</h1>
+
+            <div class="card lavender">
+                <h2>Campus Hack '26</h2>
+                <p>48 spots remaining.</p>
+                <p>Build something that matters.</p>
+            </div>
+
+            <div class="card lime">
+                <h2>Your next team is here.</h2>
+                <p>Tech Society is open to all students.</p>
+            </div>
+
+            <div class="card peach">
+                <h2>A place for every passion.</h2>
+                <p>Discover 24 campus clubs.</p>
+            </div>
+
+        </section>
+
+        <!-- Event listing page: available from the navigation. -->
+        <section class="page" id="events">
+
+            <h1>Browse events</h1>
+
+            <div class="card lavender">
+                <h2>Campus Hack '26</h2>
+                <p>24 October - Innovation Hub</p>
+                <a href="#event-details" class="btn">View event</a>
+            </div>
+
+            <div class="card peach">
+                <h2>The Sunday Sessions</h2>
+                <p>25 October - Student Courtyard</p>
+                <a href="#event-details" class="btn">View event</a>
+            </div>
+
+            <div class="card lime">
+                <h2>Build. Play. Belong.</h2>
+                <p>Find your next campus experience.</p>
+            </div>
+
+        </section>
+
+        <!-- Clubs joined by the student. -->
+        <section class="page" id="joined-clubs">
+
+            <h1>Joined clubs</h1>
+
+            <div class="card peach">
+                <h2>The Creative Collective</h2>
+                <p>Arts and design community</p>
+            </div>
+
+            <div class="card lime">
+                <h2>Rhythm Club</h2>
+                <p>Music and performance</p>
+            </div>
+
+            <div class="card lavender">
+                <h2>Campus Volunteers</h2>
+                <p>Community and volunteering</p>
+            </div>
+
+            <a href="#discover" class="btn">Explore all 24 clubs</a>
+
+        </section>
+
+    </div>
+
+    <!-- Footer: repeated information shared by every page. -->
+    <footer>
+        <p>© 2026 Campus Connect</p>
+        <p>Build. Play. Belong.</p>
+    </footer>
+
+</body>
+
+</html>
